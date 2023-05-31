@@ -103,8 +103,8 @@ function getFirstChar(value) {
  *   '\tHello, World! ' => 'Hello, World!'
  */
 function removeLeadingAndTrailingWhitespaces(value) {
-  const removeWhiteSpace = value;
-  return removeWhiteSpace.trim();
+  const removeWhiteSpace = value.trim();
+  return removeWhiteSpace;
 }
 
 /**
@@ -188,8 +188,9 @@ function convertToUpperCase(str) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails() {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  const strOfImail = str;
+  return strOfImail.split(';');
 }
 
 /**
@@ -215,8 +216,13 @@ function extractEmails() {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  const firstRow = `┌${'─'.repeat(width - 2)}┐\n`;
+  const middleRow = `│${' '.repeat(width - 2)}│\n`;
+  const lastRow = `└${'─'.repeat(width - 2)}┘\n`;
+  const amountMiddleRow = height - 2;
+  const rectangle = `${firstRow}${middleRow.repeat(amountMiddleRow)}${lastRow}`;
+  return rectangle;
 }
 
 
@@ -272,8 +278,10 @@ function encodeToRot13(str) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString() {
-  throw new Error('Not implemented');
+function isString(value) {
+  const firstConditional = typeof value === 'string';
+  const secondConditional = value instanceof String === true;
+  return firstConditional || secondConditional;
 }
 
 
@@ -301,8 +309,63 @@ function isString() {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const cardArr = [
+    'A♣',
+    '2♣',
+    '3♣',
+    '4♣',
+    '5♣',
+    '6♣',
+    '7♣',
+    '8♣',
+    '9♣',
+    '10♣',
+    'J♣',
+    'Q♣',
+    'K♣',
+    'A♦',
+    '2♦',
+    '3♦',
+    '4♦',
+    '5♦',
+    '6♦',
+    '7♦',
+    '8♦',
+    '9♦',
+    '10♦',
+    'J♦',
+    'Q♦',
+    'K♦',
+    'A♥',
+    '2♥',
+    '3♥',
+    '4♥',
+    '5♥',
+    '6♥',
+    '7♥',
+    '8♥',
+    '9♥',
+    '10♥',
+    'J♥',
+    'Q♥',
+    'K♥',
+    'A♠',
+    '2♠',
+    '3♠',
+    '4♠',
+    '5♠',
+    '6♠',
+    '7♠',
+    '8♠',
+    '9♠',
+    '10♠',
+    'J♠',
+    'Q♠',
+    'K♠',
+  ];
+  const position = cardArr.indexOf(value);
+  return position;
 }
 
 
