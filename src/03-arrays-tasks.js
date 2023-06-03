@@ -206,8 +206,11 @@ function getTail(arr, n) {
  *    +'20,21,22,23,24\n'
  *    +'30,31,32,33,34'
  */
-function toCsvText(/* arr */) {
-  throw new Error('Not implemented');
+function toCsvText(arr) {
+  return arr.map((row, i) => {
+    const str = i < arr.length - 1 ? '\n' : '';
+    return (row.join(',') + str);
+  }).join('');
 }
 
 /**
@@ -240,8 +243,15 @@ function toArrayOfSquares(arr) {
  *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
-function getMovingSum(/* arr */) {
-  throw new Error('Not implemented');
+function getMovingSum(arr) {
+  const numArr = arr.reduce((acc, elem) => {
+    let { sum } = acc;
+    const { res } = acc;
+    sum += elem;
+    res.push(sum);
+    return { sum, res };
+  }, { sum: 0, res: [] });
+  return numArr.res;
 }
 
 /**
@@ -255,8 +265,8 @@ function getMovingSum(/* arr */) {
  * [ 'a', 'b', 'c' , null ]  => [ "b", null ]
  * [ "a" ] => []
  */
-function getSecondItems(/* arr */) {
-  throw new Error('Not implemented');
+function getSecondItems(arr) {
+  return arr.filter((elem, index) => index % 2 !== 0);
 }
 
 
