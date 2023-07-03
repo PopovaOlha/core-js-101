@@ -371,8 +371,20 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const brackets = '<>[]{}()';
+  const stack = [];
+  for (let i = 0; i < str.length; i += 1) {
+    const item = str[i];
+    const index = brackets.indexOf(item);
+
+    if (index % 2 === 0) {
+      stack.push(index + 1);
+    } else if (stack.pop() !== index) {
+      return false;
+    }
+  }
+  return stack.length === 0;
 }
 
 
@@ -396,8 +408,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -413,7 +425,7 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
+function getCommonDirectoryPath() {
   throw new Error('Not implemented');
 }
 
@@ -471,7 +483,7 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
+function evaluateTicTacToePosition() {
   throw new Error('Not implemented');
 }
 
