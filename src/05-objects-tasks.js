@@ -114,33 +114,135 @@ function fromJSON(proto, json) {
  *  For more examples see unit tests.
  */
 
+class Builder {
+  constructor() {
+    this.currentItem = 0;
+    this.curElement = null;
+    this.currentId = null;
+    this.currentPseudo = null;
+    this.classList = [];
+    this.attrList = [];
+    this.pseudoList = [];
+  }
+
+  element(value) {
+    if (this.currentItem >= 2) {
+      Builder.throwOrderError();
+    }
+    if (this.curElement) {
+      Builder.throwOccurError();
+    }
+    this.curElement = value;
+    this.currentItem = 1;
+    return this;
+  }
+
+  id(value) {
+    if (this.currentItem >= 3) {
+      Builder.throwOrderError();
+    }
+    if (this.currentId) {
+      Builder.throwOccurError();
+    }
+    this.currentId = `#${value}`;
+    this.currentItem = 2;
+    return this;
+  }
+
+  class(value) {
+    if (this.currentItem >= 4) {
+      Builder.throwOrderError();
+    }
+    this.classList.push(`.${value}`);
+    this.currentItem = 3;
+    return this;
+  }
+
+  attr(value) {
+    if (this.currentItem >= 5) {
+      Builder.throwOrderError();
+    }
+    this.attrList.push(`[${value}]`);
+    this.currentItem = 4;
+    return this;
+  }
+
+  pseudoClass(value) {
+    if (this.currentItem >= 6) {
+      Builder.throwOrderError();
+    }
+    this.pseudoList.push(`:${value}`);
+    this.currentItem = 5;
+    return this;
+  }
+
+  pseudoElement(value) {
+    if (this.currentPseudo) {
+      Builder.throwOccurError();
+    }
+    this.currentPseudo = `::${value}`;
+    this.currentItem = 6;
+    return this;
+  }
+
+  resetClass() {
+    this.currentItem = 0;
+    this.element = null;
+    this.currentId = null;
+    this.pseudoElement = null;
+    this.classList = [];
+    this.attrList = [];
+    this.pseudoList = [];
+  }
+
+  stringify() {
+    const classes = this.classList.join('');
+    const attrs = this.attrList.join('');
+    const pseudo = this.pseudoList.join('');
+    const element = this.curElement ? this.curElement : '';
+    const idElem = this.currentId ? this.currentId : '';
+    const pseudoElem = this.currentPseudo ? this.currentPseudo : '';
+    return element + idElem + classes + attrs + pseudo + pseudoElem;
+  }
+
+  static throwOrderError() {
+    throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+  }
+
+  static throwOccurError() {
+    throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+  }
+}
+
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  element(value) {
+    return new Builder().element(value);
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    return new Builder().id(value);
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    return new Builder().class(value);
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    return new Builder().attr(value);
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    return new Builder().pseudoClass(value);
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    return new Builder().pseudoElement(value);
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    const string1 = selector1.stringify();
+    const string2 = selector2.stringify();
+    return new Builder().element(`${string1} ${combinator} ${string2}`);
   },
 };
 
